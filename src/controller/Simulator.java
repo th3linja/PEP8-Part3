@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Main implements Observer {
+public class Simulator implements Observer {
 
 	private ControlUnit controlUnit;
 	private SimulatorWindow window;
 
-	public Main() throws IOException {
+	public Simulator() throws IOException {
 		JFrame frame = new JFrame();
 		frame.setBackground(Color.BLACK);
 		window = new SimulatorWindow(new ControlUnit(window).memoryDump);
@@ -64,9 +64,5 @@ public class Main implements Observer {
 				// Update the GUI components when fetch-execute cycle is finished.
 				window.setMemoryDump(controlUnit.memoryDump);
             }}).start();
-	}
-
-	public static void main(String[] args) throws IOException {
-		new Main();
 	}
 }
