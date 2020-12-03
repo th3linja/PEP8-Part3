@@ -10,6 +10,36 @@ import utils.Decode;
 import view.SimulatorWindow;
 
 public class ControlUnit implements Observer {
+	/**
+	 * Negative Flag
+	 * Holds a 1 if the previous instruction generated a negative value, and holds a 0 otherwise.
+	 */
+	private int myNFlag;
+
+	/**
+	 * Zero Flag
+	 * Holds a 1 if the previous instruction generated a zero as a value, and holds a 0 otherwise.
+	 */
+	private int myZFlag;
+
+	/**
+	 * Overflow Flag
+	 * Holds a 1 if the previous instruction caused a signed overflow, and holds a 0 otherwise.
+	 *
+	 * An overflow can look like a positiveNum + positiveNum = negativeNum,
+	 * negativeNum + negativeNum = positiveNum,
+	 * positiveNum - negativeNum = negativeNum,
+	 * or negativeNum - positiveNum = positiveNum
+	 */
+	private int myVFlag;
+
+	/**
+	 * Holds a 1 if the previous instruction produced a carry value (like borrowing on subtraction),
+	 * and holds a 0 otherwise.
+	 */
+	private int myCFlag;
+
+	private int myIndexRegister;
 
 	private int PC = 0x0000;
 	private int AR = 0x0000;
@@ -163,6 +193,34 @@ public class ControlUnit implements Observer {
 		if(window.res == true) {
 			this.PC = 0x0000;
 		}
+	}
+
+	public void setMyIndexRegister(int myIndexRegister) {
+		this.myIndexRegister = myIndexRegister;
+	}
+
+	public void setMyNFlag(int myNFlag) {
+		this.myNFlag = myNFlag;
+	}
+
+	public void setMyZFlag(int myZFlag) {
+		this.myZFlag = myZFlag;
+	}
+
+	public void setMyVFlag(int myVFlag) {
+		this.myVFlag = myVFlag;
+	}
+
+	public void setMyCFlag(int myCFlag) {
+		this.myCFlag = myCFlag;
+	}
+
+	public int getAR() {
+		return AR;
+	}
+
+	public void setAR(int AR) {
+		this.AR = AR;
 	}
 }
 
