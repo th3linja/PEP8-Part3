@@ -63,44 +63,8 @@ public class ControlUnit implements Observer {
 		boolean stop = false;
 
 		currentInstruction = decode.decodeInstruction(String.format("%06X", this.IR));
-		
-		
-		switch (currentInstruction.getOpcode()) {
 
-		case ("01110"):// add
-			executeAdd(currentInstruction);
-			updateCPU();
-			break;
-
-		case ("01001"):// char in
-			executeCharIn(currentInstruction);
-			updateCPU();
-			break;
-
-		case ("01010"):// char out
-			executeCharOut(currentInstruction);
-			updateCPU();
-			break;
-
-		case ("11000"):// load
-			executeLW(currentInstruction);
-			updateCPU();
-			break;
-
-		case ("00000"):// stop
-			stop = true;
-			break;
-
-		case ("10000"):// sub
-			executeSub(currentInstruction);
-			updateCPU();
-			break;
-
-		case ("11100"):// sw
-			executeSW(currentInstruction);
-			updateCPU();
-			break;
-		}
+		currentInstruction.execute(this);
 
 		// Get data if needed.
 
@@ -111,65 +75,6 @@ public class ControlUnit implements Observer {
 		if (!stop) {
 			startCycle();
 		}
-	}
-
-	private void executeAdd(Instruction instruction) {
-		this.AR += Integer.valueOf(Converter.binToHex(instruction.getOperand()).replace(" ", ""));
-	}
-
-	private void executeCharIn(Instruction instruction) throws InterruptedException {
-		// Wait for a character to be pressed in the terminal window
-		synchronized(this){
-			while(window.charEntered.length() != 1) {
-				try {
-					window.inArea.setEditable(true);
-					this.wait();
-				} catch (InterruptedException e) {
-					System.out.println(e.getMessage());
-				}
-			}
-		}
-		int i = Integer.valueOf(window.charEntered.charAt(0));
-		//String hex = Converter.binToHex(String.format("%8s", Converter.decimalToBinary(i)).replace(' ', '0')).strip();
-    	memoryDump.setMemory(Converter.binToHex(instruction.getOperand()), i);   	
-        window.appendOutArea("Entered : '" + window.charEntered + "' at " + Converter.binToHex(instruction.getOperand()) + " in memory.\n");
-        window.charEntered = "";
-	}
-	
-
-	private void executeCharOut(Instruction instruction) {
-		if (instruction.getRegister().contentEquals("00")) { // immediate
-			String operand = instruction.getOperand();
-			char character = (char) Converter.binToDecimal(operand);
-			window.appendOutArea(String.valueOf(character));
-		} else if (instruction.getRegister().contentEquals("01")) { // direct
-			int operand = Converter.binToDecimal(instruction.getOperand());
-			char character = (char) Converter.hexToDecimal(memoryDump.getMemory(operand));
-			window.appendOutArea(String.valueOf(character));
-		}
-	}
-
-	private void executeLW(Instruction instruction) {
-		if (instruction.getRegister().contentEquals("00")) { // immediate
-			this.AR =  Converter.binToDecimal(instruction.getOperand());
-		} else if (instruction.getRegister().contentEquals("01")) { // direct
-			int address = Converter.binToDecimal(instruction.getOperand());
-			this.AR = Converter.hexToDecimal(memoryDump.getMemory(address));
-		}
-	}
-
-	private void executeSub(Instruction instruction) {
-		if (instruction.getRegister().contentEquals("00")) { // immediate
-			AR -= Integer.parseInt(Converter.binToHex(instruction.getOperand()), 16);
-		} else if (instruction.getRegister().contentEquals("01")) { // direct
-			int hexVal = Integer.parseInt(Converter.binToHex(instruction.getOperand()), 16);
-			AR -= Converter.hexToDecimal(memoryDump.getMemory(hexVal));
-		}
-	}
-
-	private void executeSW(Instruction instruction) {
-		String hexAddress = Converter.binToHex(instruction.getOperand());
-		memoryDump.setMemory(hexAddress, this.AR);
 	}
 
 	private void updateCPU() {

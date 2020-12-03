@@ -14,6 +14,7 @@ public class Addr extends Instruction {
         super(opCode, registerSpec, addressingMode, operand);
     }
 
+    @Override
     public void execute(ControlUnit theCon) {
 
         int operand = Converter.binToDecimal(super.getOperand()));
