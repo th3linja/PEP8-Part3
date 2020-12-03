@@ -1,9 +1,7 @@
 package model;
 
-import model.instructionType.Instruction;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 import utils.Converter;
 import utils.Decode;
@@ -15,7 +13,6 @@ public class ControlUnit implements Observer {
 	private int AR = 0x0000;
 	private int IR = 0x000000;
 	private myRunnable runnable = new myRunnable();
-	public Thread waitThread = new Thread(runnable);
 	SimulatorWindow window;
 
 	private Decode decode = new Decode();
@@ -108,11 +105,11 @@ public class ControlUnit implements Observer {
 	
 
 	private void executeCharOut(Instruction instruction) {
-		if (instruction.getRegister().contentEquals("00")) { // immediate
+		if (instruction.getAddressingMode().contentEquals("000")) { // immediate
 			String operand = instruction.getOperand();
 			char character = (char) Converter.binToDecimal(operand);
 			window.appendOutArea(String.valueOf(character));
-		} else if (instruction.getRegister().contentEquals("01")) { // direct
+		} else if (instruction.getAddressingMode().contentEquals("001")) { // direct
 			int operand = Converter.binToDecimal(instruction.getOperand());
 			char character = (char) Converter.hexToDecimal(memoryDump.getMemory(operand));
 			window.appendOutArea(String.valueOf(character));
@@ -120,18 +117,18 @@ public class ControlUnit implements Observer {
 	}
 
 	private void executeLW(Instruction instruction) {
-		if (instruction.getRegister().contentEquals("00")) { // immediate
+		if (instruction.getAddressingMode().contentEquals("000")) { // immediate
 			this.AR =  Converter.binToDecimal(instruction.getOperand());
-		} else if (instruction.getRegister().contentEquals("01")) { // direct
+		} else if (instruction.getAddressingMode().contentEquals("001")) { // direct
 			int address = Converter.binToDecimal(instruction.getOperand());
 			this.AR = Converter.hexToDecimal(memoryDump.getMemory(address));
 		}
 	}
 
 	private void executeSub(Instruction instruction) {
-		if (instruction.getRegister().contentEquals("00")) { // immediate
+		if (instruction.getAddressingMode().contentEquals("000")) { // immediate
 			AR -= Integer.parseInt(Converter.binToHex(instruction.getOperand()), 16);
-		} else if (instruction.getRegister().contentEquals("01")) { // direct
+		} else if (instruction.getAddressingMode().contentEquals("001")) { // direct
 			int hexVal = Integer.parseInt(Converter.binToHex(instruction.getOperand()), 16);
 			AR -= Converter.hexToDecimal(memoryDump.getMemory(hexVal));
 		}
@@ -149,7 +146,7 @@ public class ControlUnit implements Observer {
 		window.pcText.setText(String.format("0x%04X", this.PC));
 		window.isText.setText(String.format("0x%02X", Converter.binToDecimal(currentInstruction.getOpcode())));
 		window.osText.setText(String.format("0x%04X", Converter.binToDecimal(currentInstruction.getOperand())));
-		System.out.println(currentInstruction.getOpcode() + currentInstruction.getRegister() + " " + currentInstruction.getOperand());
+		System.out.println(currentInstruction.toString());
 	}
 
 	@Override
