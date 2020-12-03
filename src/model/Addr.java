@@ -1,12 +1,7 @@
 package model;
 
 import utils.Converter;
-import model.ControlUnit;
 
-
-/**
- * This class is the add instruction
- */
 
 public class Addr extends Instruction {
 
@@ -15,25 +10,25 @@ public class Addr extends Instruction {
     }
 
     @Override
-    public void execute(ControlUnit theCon) {
+    public void execute(ControlUnit controlUnit) {
 
-        int operand = Converter.binToDecimal(super.getOperand()));
+        int operand = Converter.binToDecimal(super.getOperand());
         int result;
 
         if (super.getRegisterSpecifier().equals("0")&&super.getAddressingMode().equals("000")) { // Immediate value,ac
-            result = theCon.getAR() + operand;
-            theCon.setAR(result);
+            result = controlUnit.getAR() + operand;
+            controlUnit.setAR(result);
         } else if (super.getRegisterSpecifier().equals("1")&&super.getAddressingMode().equals("000")) {  // Immediate value,index register
-            result = theCon.getAR() + operand;
-            theCon.setMyIndexRegister(result);
+            result = controlUnit.getAR() + operand;
+            controlUnit.setMyIndexRegister(result);
         } else { //memory,direct
-            result = theCon.getAR() + Converter.binToDecimal(theCon.memoryDump.getMemory(operand)));
-            theCon.setAR(result);
+            result = controlUnit.getAR() + Converter.binToDecimal(controlUnit.memoryDump.getMemory(operand));
+            controlUnit.setAR(result);
         }
-        theCon.setMyNFlag(NFlag(Converter.decimalToBinary(result)));
-        theCon.setMyZFlag(ZFlag(Converter.decimalToBinary(result)));
-        theCon.setMyVFlag(VFlag(theCon.getAR(),operand,result));
-        theCon.setMyCFlag(CFlag(Converter.decimalToBinary(theCon.getAR()),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
+        controlUnit.setMyNFlag(NFlag(Converter.decimalToBinary(result)));
+        controlUnit.setMyZFlag(ZFlag(Converter.decimalToBinary(result)));
+        controlUnit.setMyVFlag(VFlag(controlUnit.getAR(),operand,result));
+        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(controlUnit.getAR()),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
 
     }
 
@@ -49,9 +44,9 @@ public class Addr extends Instruction {
         return output;
     }
 
-    private int VFlag(int o1, int o2,int result) {
+    private int VFlag(int ARegisterValue, int operand,int result) {
 
-        if((o1>0&&o2>0&&result<0)||(o1<0&&o2<0&&result>0)){
+        if((ARegisterValue > 0 && operand > 0 && result < 0)||(ARegisterValue < 0 && operand < 0 && result > 0)){
             return 1;
         }
 
@@ -59,11 +54,11 @@ public class Addr extends Instruction {
 
     }
 
-    private int CFlag(String o1,String o2,String result){
-        int o1b = Integer.parseInt(o1.substring(0,1));
-        int o2b = Integer.parseInt(o1.substring(0,1));
-        int resultb = Integer.parseInt(o1.substring(0,1));
-        if((o1b==1&&o1b==1&&resultb==0)||(o1b==0&&o1b==0&&resultb==1)){
+    private int CFlag(String ARegisterValue,String operand,String result){
+        int AMSB = Integer.parseInt(ARegisterValue.substring(0,1));
+        int operandMSB = Integer.parseInt(operand.substring(0,1));
+        int resultMSB = Integer.parseInt(result.substring(0,1));
+        if((AMSB == 1 && operandMSB == 1&& resultMSB == 0)||(AMSB == 0 && operandMSB == 0 && resultMSB == 1)){
             return 1;
         }
         return 0;
