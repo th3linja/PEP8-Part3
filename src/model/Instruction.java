@@ -27,7 +27,7 @@ public abstract class Instruction {
         this.myAddressingMode = addressingMode;
     }
 
-    public abstract void execute(ControlUnit theCon);
+    public abstract void execute(ControlUnit controlUnit);
 
     @Override
     public String toString() {
