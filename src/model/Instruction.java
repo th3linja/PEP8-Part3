@@ -1,6 +1,6 @@
 package model;
 
-public class Instruction {
+public abstract class Instruction {
     private String myRegisterSpecifier = "";
 
     private String myOperand = "";
@@ -26,6 +26,8 @@ public class Instruction {
         this.myOperand = operand;
         this.myAddressingMode = addressingMode;
     }
+
+    public abstract void execute(ControlUnit controlUnit);
 
     @Override
     public String toString() {
