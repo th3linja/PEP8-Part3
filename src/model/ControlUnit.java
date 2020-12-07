@@ -1,9 +1,7 @@
 package model;
 
-import model.instructionType.Instruction;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 import utils.Converter;
 import utils.Decode;
