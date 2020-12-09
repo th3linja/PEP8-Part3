@@ -18,21 +18,22 @@ public class Addr extends Instruction {
 
         int operand = Converter.binToDecimal(super.getOperand());
         int result;
+        int ar = controlUnit.getAR();
 
         if (super.getRegisterSpecifier().equals("0")&&super.getAddressingMode().equals("000")) { // Immediate value,ac
-            result = controlUnit.getAR() + operand;
+            result = ar + operand;
             controlUnit.setAR(result);
         } else if (super.getRegisterSpecifier().equals("1")&&super.getAddressingMode().equals("000")) {  // Immediate value,index register
-            result = controlUnit.getAR() + operand;
+            result = ar + operand;
             controlUnit.setMyIndexRegister(result);
         } else { //memory,direct
-            result = controlUnit.getAR() + Converter.binToDecimal(controlUnit.memoryDump.getMemory(operand));
+            result = ar + Converter.binToDecimal(controlUnit.memoryDump.getMemory(operand));
             controlUnit.setAR(result);
         }
         controlUnit.setMyNFlag(NFlag(Converter.decimalToBinary(result)));
         controlUnit.setMyZFlag(ZFlag(Converter.decimalToBinary(result)));
-        controlUnit.setMyVFlag(VFlag(controlUnit.getAR(),operand,result));
-        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(controlUnit.getAR()),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
+        controlUnit.setMyVFlag(VFlag(ar,operand,result));
+        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(ar),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
     }
 
     private int NFlag(final String theBinary) {
@@ -41,15 +42,18 @@ public class Addr extends Instruction {
 
     private int ZFlag(final String theBinary) {
         int output = 0;
-        if (theBinary.indexOf("1") == -1) { // There are no 1's in the binary string.
+        if (!theBinary.contains("1")) { // There are no 1's in the binary string.
             output = 1;
         }
         return output;
     }
 
     private int VFlag(int ARegisterValue, int operand,int result) {
+        char ar1 = Converter.decimalToBinary(ARegisterValue).charAt(0);
+        char operand1 = Converter.decimalToBinary(operand).charAt(0);
+        char result1 = Converter.decimalToBinary(result).charAt(0);
 
-        if((ARegisterValue > 0 && operand > 0 && result < 0)||(ARegisterValue < 0 && operand < 0 && result > 0)){
+        if((ar1 == '1' && operand1 == '1' && result1 == '0')||((ar1 == '0' && operand1 == '0' && result1 == '1'))){
             return 1;
         }
 
