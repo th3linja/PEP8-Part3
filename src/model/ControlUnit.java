@@ -1,10 +1,7 @@
 package model;
 
-import model.instructionType.Instruction;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
-
 import utils.Converter;
 import utils.Decode;
 import view.SimulatorWindow;
@@ -44,12 +41,9 @@ public class ControlUnit implements Observer {
 	private int PC = 0x0000;
 	private int AR = 0x0000;
 	private int IR = 0x000000;
-	private myRunnable runnable = new myRunnable();
-	public Thread waitThread = new Thread(runnable);
 	SimulatorWindow window;
 
 	private Decode decode = new Decode();
-	private ArithmeticLogicUnit ALU = new ArithmeticLogicUnit();
 	public MemoryDump memoryDump = new MemoryDump();
 	private Instruction currentInstruction;
 
@@ -57,7 +51,7 @@ public class ControlUnit implements Observer {
 		this.window = window;
 	}
 
-	public void startCycle() throws InterruptedException {
+	public void startCycle() {
 		this.IR = Integer.parseInt(memoryDump.fetch(this.PC), 16);
 		
 		boolean stop = false;
@@ -84,7 +78,7 @@ public class ControlUnit implements Observer {
 		window.pcText.setText(String.format("0x%04X", this.PC));
 		window.isText.setText(String.format("0x%02X", Converter.binToDecimal(currentInstruction.getOpcode())));
 		window.osText.setText(String.format("0x%04X", Converter.binToDecimal(currentInstruction.getOperand())));
-		System.out.println(currentInstruction.getOpcode() + currentInstruction.getRegister() + " " + currentInstruction.getOperand());
+		System.out.println(currentInstruction.getOpcode() + currentInstruction.getRegisterSpecifier() + " " + currentInstruction.getOperand());
 	}
 
 	@Override
@@ -118,6 +112,22 @@ public class ControlUnit implements Observer {
 
 	public void setMyCFlag(int myCFlag) {
 		this.myCFlag = myCFlag;
+	}
+
+	public int getMyNFlag() {
+		return myNFlag;
+	}
+
+	public int getMyVFlag() {
+		return myVFlag;
+	}
+
+	public int getMyZFlag() {
+		return myZFlag;
+	}
+
+	public int getMyCFlag() {
+		return myCFlag;
 	}
 
 	public int getAR() {
