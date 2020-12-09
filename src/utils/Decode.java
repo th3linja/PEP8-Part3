@@ -2,6 +2,7 @@
 package utils;
 
 import model.*;
+import model.Instruction;
 
 /**
  * This class reads the input binary strings and assign them to correct
