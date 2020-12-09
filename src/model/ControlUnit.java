@@ -51,6 +51,10 @@ public class ControlUnit implements Observer {
 		this.window = window;
 	}
 
+    public ControlUnit() {
+        
+    }
+
 	public void startCycle() {
 		this.IR = Integer.parseInt(memoryDump.fetch(this.PC), 16);
 		
