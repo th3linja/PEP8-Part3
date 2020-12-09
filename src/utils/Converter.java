@@ -45,13 +45,13 @@ public class Converter {
 	}
 
 	/**
-	 * binary---> Decimal
-	 * 
+	 * Twos compliment binary string ---> Decimal
+	 *
 	 * @param bin
 	 * @return Decimal
 	 */
 	public static int binToDecimal(String bin) {
-		return Integer.parseInt(bin, 2);
+		return (short)Integer.parseInt(bin, 2);
 	}
 
 	/**
