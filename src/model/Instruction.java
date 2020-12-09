@@ -1,5 +1,7 @@
 package model;
 
+import utils.Converter;
+
 public abstract class Instruction {
     private String myRegisterSpecifier = "";
 
@@ -61,7 +63,9 @@ public abstract class Instruction {
     }
 
     public int VFlag(int ARegisterValue, int operand,int result) {
-        if((ARegisterValue > 0 && operand > 0 && result < 0) || (ARegisterValue < 0 && operand < 0 && result > 0)){
+        int twosComplimentConversion = Converter.binToDecimal(Converter.decimalToBinary(result));
+        if((ARegisterValue > 0 && operand > 0 && twosComplimentConversion < 0)
+                || (ARegisterValue < 0 && operand < 0 && twosComplimentConversion > 0)){
             return 1;
         }
         return 0;
