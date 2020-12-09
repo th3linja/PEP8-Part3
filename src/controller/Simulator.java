@@ -39,18 +39,14 @@ public class Simulator implements Observer {
 			if (binaryCode.equals("") || binaryCode == null) {
 				binaryCode = Converter.hexToBinary(objectCode);
 				window.setBinCodeArea(binaryCode);
-				controlUnit.memoryDump.updateMemory(objectCode);
-				window.getMemoryArea().setText(controlUnit.memoryDump.toString());
-				window.getMemoryArea().setCaretPosition(0);
-				controlUnit.startCycle();
 			} else {
 				objectCode = Converter.binToHex(binaryCode);
 				window.setObjectCodeArea(objectCode);
-				controlUnit.memoryDump.updateMemory(objectCode);
-				window.getMemoryArea().setText(controlUnit.memoryDump.toString());
-				window.getMemoryArea().setCaretPosition(0);
-				controlUnit.startCycle();
 			}
+			controlUnit.memoryDump.updateMemory(objectCode);
+			window.getMemoryArea().setText(controlUnit.memoryDump.toString());
+			window.getMemoryArea().setCaretPosition(0);
+			controlUnit.startCycle();
 
 			// Update the GUI components when fetch-execute cycle is finished.
 			window.setMemoryDump(controlUnit.memoryDump);
