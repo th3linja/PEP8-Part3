@@ -1,7 +1,7 @@
 
 package utils;
 
-import model.instructionType.*;
+import model.*;
 
 /**
  * This class reads the input binary strings and assign them to correct
@@ -30,19 +30,19 @@ public final class Decode {
 		switch (node[0]) {
 		case "01110":// instruction: add
 			node[2] = theString.substring(8, 24);// assign operand specifier to node 2
-			instruction = new Add(node[0], node[1], node[2]);
+			instruction = new Addr(node[0], node[1], node[2]);
 			break;
 		case "11000":// instruction: load
 			node[2] = theString.substring(8, 24);// assign operand specifier to node 2
-			instruction = new LW(node[0], node[1], node[2]);
+			instruction = new Load(node[0], node[1], node[2]);
 			break;
 		case "11100":// instruction: store
 			node[2] = theString.substring(8, 24);// assign operand specifier to node 2
-			instruction = new SW(node[0], node[1], node[2]);
+			instruction = new Store(node[0], node[1], node[2]);
 			break;
 		case "10000":// instruction: subtract
 			node[2] = theString.substring(8, 24);// assign operand specifier to node 2
-			instruction = new Sub(node[0], node[1], node[2]);
+			instruction = new Subtract(node[0], node[1], node[2]);
 			break;
 		case "01001":// instruction: character input
 			node[2] = theString.substring(8, 24);// assign operand specifier to node 2
