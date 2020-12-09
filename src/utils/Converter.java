@@ -1,5 +1,7 @@
 package utils;
 
+import static java.lang.Integer.toBinaryString;
+
 /**
  * this class contains methods convert between hex <---> binary binary <--->
  * decimal hex ---> decimal
@@ -69,7 +71,7 @@ public class Converter {
 		String[] hexCode = hex.replace(" ", "").split("");
 		for (int i = 0; i < hexCode.length; i++) {
 			int binVal = hexToDecimal(hexCode[i]);
-			binary.append(String.format("%4s", Integer.toBinaryString(binVal)).replace(" ", "0"));
+			binary.append(String.format("%4s", toBinaryString(binVal)).replace(" ", "0"));
 			binary.append(" ");
 		}
 		return binary.toString();
@@ -82,6 +84,18 @@ public class Converter {
 	 * @return binary
 	 */
 	public static String decimalToBinary(int decimal) {
-		return Integer.toBinaryString(decimal);
+		String binaryOutput = "";
+		// If theReturnLength is valid:
+		binaryOutput = toBinaryString(decimal);
+		int binStartLength = binaryOutput.length();
+		/* If the length of the generated binary is too small (which is the case with positive values only),
+		 * extend leading 0's to the desired return length.
+		 */
+		if (binStartLength < 16) {
+			for (int i = 0; i < 16 - binStartLength; i++) {
+				binaryOutput = "0" + binaryOutput;
+			}
+		}
+		return binaryOutput;
 	}
 }
