@@ -7,15 +7,17 @@ import view.SimulatorWindow;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Main implements Observer {
+public class Simulator implements Observer {
 
 	private ControlUnit controlUnit;
 	private SimulatorWindow window;
 
-	public Main() throws IOException {
+	public Simulator() throws IOException {
 		JFrame frame = new JFrame();
 		frame.setBackground(Color.BLACK);
 		window = new SimulatorWindow(new ControlUnit(window).memoryDump);
@@ -31,42 +33,33 @@ public class Main implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		new Thread( new Runnable() {
-            @Override
-            public void run()
-            {
-				String objectCode = window.getObjectCodeArea().getText().replace("\n", "").replace(" ", "");
-				String binaryCode = window.getBinCodeArea().getText().replace("\n", "").replace(" ", "");
-				if(binaryCode.equals("") || binaryCode == null) {
-					binaryCode = Converter.hexToBinary(objectCode);
-					window.setBinCodeArea(binaryCode);
-					controlUnit.memoryDump.updateMemory(objectCode);
-					window.getMemoryArea().setText(controlUnit.memoryDump.toString());
-					window.getMemoryArea().setCaretPosition(0);
-					try {
-						controlUnit.startCycle();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				} else {
-					objectCode = Converter.binToHex(binaryCode);
-					window.setObjectCodeArea(objectCode);
-					controlUnit.memoryDump.updateMemory(objectCode);
-					window.getMemoryArea().setText(controlUnit.memoryDump.toString());
-					window.getMemoryArea().setCaretPosition(0);
-					try {
-						controlUnit.startCycle();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				// Update the GUI components when fetch-execute cycle is finished.
-				window.setMemoryDump(controlUnit.memoryDump);
-            }}).start();
-	}
+		new Thread(() -> {
+			String objectCode = window.getObjectCodeArea().getText().replace("\n", "").replace(" ", "");
+			String binaryCode = window.getBinCodeArea().getText().replace("\n", "").replace(" ", "");
+			if (binaryCode.equals("") || binaryCode == null) {
+				binaryCode = Converter.hexToBinary(objectCode);
+				window.setBinCodeArea(binaryCode);
+				controlUnit.memoryDump.updateMemory(objectCode);
+				window.getMemoryArea().setText(controlUnit.memoryDump.toString());
+				window.getMemoryArea().setCaretPosition(0);
+				controlUnit.startCycle();
+			} else {
+				objectCode = Converter.binToHex(binaryCode);
+				window.setObjectCodeArea(objectCode);
+				controlUnit.memoryDump.updateMemory(objectCode);
+				window.getMemoryArea().setText(controlUnit.memoryDump.toString());
+				window.getMemoryArea().setCaretPosition(0);
+				controlUnit.startCycle();
+			}
 
-	public static void main(String[] args) throws IOException {
-		new Main();
+			// Update the GUI components when fetch-execute cycle is finished.
+			window.setMemoryDump(controlUnit.memoryDump);
+			Map<String, String> addressingBits = new HashMap<>();
+			addressingBits.put("N", controlUnit.getMyNFlag()+"");
+			addressingBits.put("Z", controlUnit.getMyZFlag()+"");
+			addressingBits.put("V", controlUnit.getMyVFlag()+"");
+			addressingBits.put("C", controlUnit.getMyCFlag()+"");
+			window.setAddressingBits(addressingBits);
+		}).start();
 	}
 }
