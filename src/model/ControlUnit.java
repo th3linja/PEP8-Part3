@@ -55,6 +55,10 @@ public class ControlUnit implements Observer {
         
     }
 
+	public void executeSingleInstruction(Instruction instr) {
+		instr.execute(this);
+	}
+
 	public void startCycle() {
 		this.IR = Integer.parseInt(memoryDump.fetch(this.PC), 16);
 		
