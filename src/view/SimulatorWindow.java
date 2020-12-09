@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 public class SimulatorWindow extends Observable {
@@ -36,7 +38,16 @@ public class SimulatorWindow extends Observable {
 	/* CPU window components. */
 	private JTextArea cpuArea = new JTextArea();
 	private JPanel cpuPanel = new JPanel();
+	private JPanel addressingBitsPanel = new JPanel();
 	private JLabel cpuTextField = new JLabel("CPU");
+	private JLabel nLabel = new JLabel("    N");
+	private JTextField nField = new JTextField("0");
+	private JLabel zLabel = new JLabel("    Z");
+	private JTextField zField = new JTextField("0");
+	private JLabel vLabel = new JLabel("    V");
+	private JTextField vField = new JTextField("0");
+	private JLabel cLabel = new JLabel("    C");
+	private JTextField cField = new JTextField("0");
 
 	/* Terminal window components. */
 	private JTextArea outArea = new JTextArea();
@@ -143,6 +154,20 @@ public class SimulatorWindow extends Observable {
 	}
 
 	private JPanel buildCpuWindow() {
+		nField.setEditable(false);
+		zField.setEditable(false);
+		vField.setEditable(false);
+		cField.setEditable(false);
+		addressingBitsPanel.setLayout(new GridLayout(1,8));
+		addressingBitsPanel.add(nLabel);
+		addressingBitsPanel.add(nField);
+		addressingBitsPanel.add(zLabel);
+		addressingBitsPanel.add(zField);
+		addressingBitsPanel.add(vLabel);
+		addressingBitsPanel.add(vField);
+		addressingBitsPanel.add(cLabel);
+		addressingBitsPanel.add(cField);
+
 		cpuPanel.setLayout(new BorderLayout());
 		cpuPanel.setPreferredSize(new Dimension(350, 200));
 		cpuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -197,6 +222,7 @@ public class SimulatorWindow extends Observable {
 		cpuInfoPanel.add(os);
 		cpuInfoPanel.add(osText);
 
+		cpuPanel.add(addressingBitsPanel, BorderLayout.NORTH);
 		cpuPanel.add(cpuInfoPanel, BorderLayout.WEST);
 		
 		return cpuPanel;
@@ -264,6 +290,22 @@ public class SimulatorWindow extends Observable {
 		outArea.append(output);
 	}
 	
+
+	public Map<String, JTextField> getAddressingBits() {
+		Map<String, JTextField> addressingBits = new HashMap<>();
+		addressingBits.put("N", nField);
+		addressingBits.put("Z", zField);
+		addressingBits.put("C", cField);
+		addressingBits.put("V", vField);
+		return addressingBits;
+	}
+
+	public void setAddressingBits(Map<String, String> addressingBits) {
+		nField.setText(addressingBits.get("N"));
+		zField.setText(addressingBits.get("Z"));
+		cField.setText(addressingBits.get("C"));
+		vField.setText(addressingBits.get("V"));
+	}
 
 	public void setOutArea(String output) {
 		outArea.setText(output);

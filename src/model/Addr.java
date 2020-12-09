@@ -9,6 +9,10 @@ public class Addr extends Instruction {
         super(opCode, registerSpec, addressingMode, operand);
     }
 
+    public Addr(String opCode, String operandSpecifier, String operand) {
+        super(opCode, operandSpecifier, operand);
+    }
+
     @Override
     public void execute(ControlUnit controlUnit) {
 
@@ -29,7 +33,6 @@ public class Addr extends Instruction {
         controlUnit.setMyZFlag(ZFlag(Converter.decimalToBinary(result)));
         controlUnit.setMyVFlag(VFlag(controlUnit.getAR(),operand,result));
         controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(controlUnit.getAR()),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
-
     }
 
     private int NFlag(final String theBinary) {
@@ -63,5 +66,4 @@ public class Addr extends Instruction {
         }
         return 0;
     }
-
 }
