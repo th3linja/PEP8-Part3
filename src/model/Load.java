@@ -3,7 +3,7 @@ package model;
 import utils.Converter;
 import utils.Transformer;
 
-public class Load extends Instruction{
+public class Load extends Instruction {
 
     public Load(String opCode, String operand) {
         super(opCode, operand);
@@ -22,18 +22,16 @@ public class Load extends Instruction{
         if (getRegisterSpecifier().contentEquals("0")) { //Accumulator
             if (getAddressingMode().contentEquals("000")) { //immediate
                 controlUnit.setAR(Integer.parseInt(getOperand(), 2));
-            }
-            else if (getAddressingMode().contentEquals("001")) { //direct
+            } else if (getAddressingMode().contentEquals("001")) { //direct
                 int address = Converter.binToDecimal(getOperand());
                 String memBin = Integer.toBinaryString(
                         Converter.hexToDecimal(controlUnit.memoryDump.getMemory(address)));
                 controlUnit.setAR(Integer.parseInt(memBin));
             }
-        }else if (getRegisterSpecifier().contentEquals("1")) { //Index Reg
+        } else if (getRegisterSpecifier().contentEquals("1")) { //Index Reg
             if (getAddressingMode().contentEquals("000")) { //immediate
                 controlUnit.setMyIndexRegister(Integer.parseInt(getOperand(), 2));
-            }
-            else if (getAddressingMode().contentEquals("001")) { //direct
+            } else if (getAddressingMode().contentEquals("001")) { //direct
                 int address = Converter.binToDecimal(getOperand());
                 String memBin = Integer.toBinaryString(
                         Converter.hexToDecimal(controlUnit.memoryDump.getMemory(address)));

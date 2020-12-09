@@ -19,10 +19,10 @@ public class Addr extends Instruction {
         int result;
         int ar = controlUnit.getAR();
 
-        if (super.getRegisterSpecifier().equals("0")&&super.getAddressingMode().equals("000")) { // Immediate value,ac
+        if (super.getRegisterSpecifier().equals("0") && super.getAddressingMode().equals("000")) { // Immediate value,ac
             result = ar + operand;
             controlUnit.setAR(result);
-        } else if (super.getRegisterSpecifier().equals("1")&&super.getAddressingMode().equals("000")) {  // Immediate value,index register
+        } else if (super.getRegisterSpecifier().equals("1") && super.getAddressingMode().equals("000")) {  // Immediate value,index register
             result = ar + operand;
             controlUnit.setMyIndexRegister(result);
         } else { //memory,direct
@@ -31,7 +31,7 @@ public class Addr extends Instruction {
         }
         controlUnit.setMyNFlag(NFlag(Converter.decimalToBinary(result)));
         controlUnit.setMyZFlag(ZFlag(Converter.decimalToBinary(result)));
-        controlUnit.setMyVFlag(VFlag(ar,operand,result));
-        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(ar),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
+        controlUnit.setMyVFlag(VFlag(ar, operand, result));
+        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(ar), Converter.decimalToBinary(operand), Converter.decimalToBinary(result)));
     }
 }

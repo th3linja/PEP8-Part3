@@ -37,21 +37,23 @@ public abstract class Instruction {
     }
 
     public String getAddressingMode() {
-        return (myAddressingMode == null)? "": myAddressingMode;
+        return (myAddressingMode == null) ? "" : myAddressingMode;
     }
 
     public String getOpcode() {
-        return (myOpcode == null)? "": myOpcode;
+        return (myOpcode == null) ? "" : myOpcode;
     }
+
     public String getOperand() {
-        return (myOperand == null)? "": myOperand;
+        return (myOperand == null) ? "" : myOperand;
     }
+
     public String getRegisterSpecifier() {
-        return (myRegisterSpecifier == null)? "": myRegisterSpecifier;
+        return (myRegisterSpecifier == null) ? "" : myRegisterSpecifier;
     }
 
     public int NFlag(final String theBinary) {
-        return Integer.parseInt(theBinary.substring(0,1));
+        return Integer.parseInt(theBinary.substring(0, 1));
     }
 
     public int ZFlag(final String theBinary) {
@@ -62,20 +64,20 @@ public abstract class Instruction {
         return output;
     }
 
-    public int VFlag(int ARegisterValue, int operand,int result) {
+    public int VFlag(int ARegisterValue, int operand, int result) {
         int twosComplimentConversion = Converter.binToDecimal(Converter.decimalToBinary(result));
-        if((ARegisterValue > 0 && operand > 0 && twosComplimentConversion < 0)
-                || (ARegisterValue < 0 && operand < 0 && twosComplimentConversion > 0)){
+        if ((ARegisterValue > 0 && operand > 0 && twosComplimentConversion < 0)
+                || (ARegisterValue < 0 && operand < 0 && twosComplimentConversion > 0)) {
             return 1;
         }
         return 0;
     }
 
-    public int CFlag(String ARegisterValue,String operand,String result){
-        int AMSB = Integer.parseInt(ARegisterValue.substring(0,1));
-        int operandMSB = Integer.parseInt(operand.substring(0,1));
-        int resultMSB = Integer.parseInt(result.substring(0,1));
-        if((AMSB == 1 && operandMSB == 1&& resultMSB == 0)||(AMSB == 0 && operandMSB == 0 && resultMSB == 1)){
+    public int CFlag(String ARegisterValue, String operand, String result) {
+        int AMSB = Integer.parseInt(ARegisterValue.substring(0, 1));
+        int operandMSB = Integer.parseInt(operand.substring(0, 1));
+        int resultMSB = Integer.parseInt(result.substring(0, 1));
+        if ((AMSB == 1 && operandMSB == 1 && resultMSB == 0) || (AMSB == 0 && operandMSB == 0 && resultMSB == 1)) {
             return 1;
         }
         return 0;

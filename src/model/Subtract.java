@@ -2,7 +2,7 @@ package model;
 
 import utils.Converter;
 
-public class Subtract extends Instruction{
+public class Subtract extends Instruction {
 
     public Subtract(String opCode, String registerSpec, String operand) {
         super(opCode, registerSpec, operand);
@@ -29,7 +29,7 @@ public class Subtract extends Instruction{
         }
         controlUnit.setMyNFlag(NFlag(Converter.decimalToBinary(result)));
         controlUnit.setMyZFlag(ZFlag(Converter.decimalToBinary(result)));
-        controlUnit.setMyVFlag(VFlag(controlUnit.getAR(),operand,result));
-        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(controlUnit.getAR()),Converter.decimalToBinary(operand),Converter.decimalToBinary(result)));
+        controlUnit.setMyVFlag(VFlag(controlUnit.getAR(), operand, result));
+        controlUnit.setMyCFlag(CFlag(Converter.decimalToBinary(controlUnit.getAR()), Converter.decimalToBinary(operand), Converter.decimalToBinary(result)));
     }
 }

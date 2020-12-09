@@ -1,6 +1,6 @@
 package model;
 
-public class Stop extends Instruction{
+public class Stop extends Instruction {
 
     public Stop(String opCode, String operand) {
         super(opCode, operand);
