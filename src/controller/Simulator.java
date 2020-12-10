@@ -33,23 +33,13 @@ public class Simulator implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        updateMemoryFromWindow();
+
         String operation = (String) arg;
         if (operation.equals("Single Step")) {
             controlUnit.executeNextInstruction();
         } else if (operation.equals("Execute")) {
             new Thread(() -> {
-                String objectCode = window.getObjectCodeArea().getText().replace("\n", "").replace(" ", "");
-                String binaryCode = window.getBinCodeArea().getText().replace("\n", "").replace(" ", "");
-                if (binaryCode.equals("") || binaryCode == null) {
-                    binaryCode = Converter.hexToBinary(objectCode);
-                    window.setBinCodeArea(binaryCode);
-                } else {
-                    objectCode = Converter.binToHex(binaryCode);
-                    window.setObjectCodeArea(objectCode);
-                }
-                controlUnit.memoryDump.updateMemory(objectCode);
-                window.getMemoryArea().setText(controlUnit.memoryDump.toString());
-                window.getMemoryArea().setCaretPosition(0);
                 controlUnit.startCycle();
 
             }).start();
@@ -63,5 +53,20 @@ public class Simulator implements Observer {
         addressingBits.put("V", controlUnit.getMyVFlag() + "");
         addressingBits.put("C", controlUnit.getMyCFlag() + "");
         window.setAddressingBits(addressingBits);
+    }
+
+    private void updateMemoryFromWindow() {
+        String objectCode = window.getObjectCodeArea().getText().replace("\n", "").replace(" ", "");
+        String binaryCode = window.getBinCodeArea().getText().replace("\n", "").replace(" ", "");
+        if (binaryCode.equals("") || binaryCode == null) {
+            binaryCode = Converter.hexToBinary(objectCode);
+            window.setBinCodeArea(binaryCode);
+        } else {
+            objectCode = Converter.binToHex(binaryCode);
+            window.setObjectCodeArea(objectCode);
+        }
+        controlUnit.memoryDump.updateMemory(objectCode);
+        window.getMemoryArea().setText(controlUnit.memoryDump.toString());
+        window.getMemoryArea().setCaretPosition(0);
     }
 }
