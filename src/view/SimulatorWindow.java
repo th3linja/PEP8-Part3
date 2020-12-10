@@ -48,6 +48,7 @@ public class SimulatorWindow extends Observable {
     private JTextField vField = new JTextField("0");
     private JLabel cLabel = new JLabel("    C");
     private JTextField cField = new JTextField("0");
+    private JButton stepButton = new JButton("Single Step");
 
     /* Terminal window components. */
     private JTextArea outArea = new JTextArea();
@@ -224,6 +225,7 @@ public class SimulatorWindow extends Observable {
 
         cpuPanel.add(addressingBitsPanel, BorderLayout.NORTH);
         cpuPanel.add(cpuInfoPanel, BorderLayout.WEST);
+        cpuPanel.add(stepButton, BorderLayout.SOUTH);
 
         return cpuPanel;
     }
