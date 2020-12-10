@@ -85,27 +85,21 @@ public class SimulatorWindow extends Observable {
         Image img2 = ImageIO.read(new FileInputStream("resources/loader_resize.png"));
         loaderButton.setIcon(new ImageIcon(img2));
 
-        executeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //reset();
-                setChanged();
-                notifyObservers();
-            }
+        executeButton.addActionListener((e) -> {
+            setChanged();
+            notifyObservers();
         });
 
-        inArea.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (inArea.getText().length() == 1) {
-                    charEntered = inArea.getText();
-                    setChanged();
-                    notifyObservers();
-                    inArea.setEditable(false);
-                    setInArea(null);
-                } else {
-                    setOutArea("Entered : " + getInArea() + "\nExpected char in range (0x0000 - 0xFFFF)\n");
-                    setInArea(null);
-                }
+        inArea.addActionListener(e -> {
+            if (inArea.getText().length() == 1) {
+                charEntered = inArea.getText();
+                setChanged();
+                notifyObservers();
+                inArea.setEditable(false);
+                setInArea(null);
+            } else {
+                setOutArea("Entered : " + getInArea() + "\nExpected char in range (0x0000 - 0xFFFF)\n");
+                setInArea(null);
             }
         });
 
