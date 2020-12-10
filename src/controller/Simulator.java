@@ -48,14 +48,15 @@ public class Simulator implements Observer {
             window.getMemoryArea().setCaretPosition(0);
             controlUnit.startCycle();
 
-            // Update the GUI components when fetch-execute cycle is finished.
-            window.setMemoryDump(controlUnit.memoryDump);
-            Map<String, String> addressingBits = new HashMap<>();
-            addressingBits.put("N", controlUnit.getMyNFlag() + "");
-            addressingBits.put("Z", controlUnit.getMyZFlag() + "");
-            addressingBits.put("V", controlUnit.getMyVFlag() + "");
-            addressingBits.put("C", controlUnit.getMyCFlag() + "");
-            window.setAddressingBits(addressingBits);
         }).start();
+
+        // Update the GUI components when fetch-execute cycle is finished.
+        window.setMemoryDump(controlUnit.memoryDump);
+        Map<String, String> addressingBits = new HashMap<>();
+        addressingBits.put("N", controlUnit.getMyNFlag() + "");
+        addressingBits.put("Z", controlUnit.getMyZFlag() + "");
+        addressingBits.put("V", controlUnit.getMyVFlag() + "");
+        addressingBits.put("C", controlUnit.getMyCFlag() + "");
+        window.setAddressingBits(addressingBits);
     }
 }
