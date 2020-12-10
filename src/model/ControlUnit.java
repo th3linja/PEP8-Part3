@@ -55,6 +55,11 @@ public class ControlUnit implements Observer {
 
     }
 
+    public void executeNextInstruction() {
+        Instruction nextInstruction = getNextInstruction();
+        incrementPC();
+        updateCPU();
+    }
 
     public void startCycle() {
         boolean stop = false;
