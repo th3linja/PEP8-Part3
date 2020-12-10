@@ -35,7 +35,7 @@ public class Simulator implements Observer {
     public void update(Observable o, Object arg) {
         String operation = (String) arg;
         if (operation.equals("Single Step")) {
-
+            controlUnit.executeNextInstruction();
         } else if (operation.equals("Execute")) {
             new Thread(() -> {
                 String objectCode = window.getObjectCodeArea().getText().replace("\n", "").replace(" ", "");
