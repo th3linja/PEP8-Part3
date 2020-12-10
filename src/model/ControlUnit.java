@@ -57,6 +57,7 @@ public class ControlUnit implements Observer {
 
     public void executeNextInstruction() {
         Instruction nextInstruction = getNextInstruction();
+        nextInstruction.execute(this);
         incrementPC();
         updateCPU();
     }
