@@ -139,6 +139,10 @@ public class ControlUnit implements Observer {
         return myCFlag;
     }
 
+    public int getMyIndexRegister() {
+        return myIndexRegister;
+    }
+
     public int getAR() {
         return AR;
     }

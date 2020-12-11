@@ -12,7 +12,7 @@ public class AddressingBitsTest {
     @Test
     void testZBit(){
         // Command will Load the A register with the value of 1. Then add a -1 to it. Should trigger the Z addressing bit.
-        Instruction loadInstruction = new Load("1100","0","000", "0000000000000001");
+        Instruction loadInstruction = new Ldr("1100","0","000", "0000000000000001");
         Instruction addInstruction = new Addr("0111", "0", "000", "1111111111111111");
         Instruction stopInstruction = new Stop("0000", "0000");
         controlUnit.executeSingleInstruction(loadInstruction);
@@ -24,7 +24,7 @@ public class AddressingBitsTest {
     @Test
     void testNBit() {
         // Command will Load the the A register with the value of 1. Then subtract 2 to it. Should trigger the N bit.
-        Instruction loadInstruction = new Load("1100","0","000", "0000000000000001");
+        Instruction loadInstruction = new Ldr("1100","0","000", "0000000000000001");
         Instruction subtractInstruction = new Subtract("1000", "0", "000", "0000000000000010");
         Instruction stopInstruction = new Stop("0000", "0000");
         controlUnit.executeSingleInstruction(loadInstruction);
@@ -39,7 +39,7 @@ public class AddressingBitsTest {
         //    0111111111111111
         //    0000000000000001 +
         // = 01000000000000000
-        Instruction loadInstruction = new Load("1100", "0", "000", "0111111111111111");
+        Instruction loadInstruction = new Ldr("1100", "0", "000", "0111111111111111");
         Instruction addInstruction = new Addr("0111", "0", "000", "0000000000000001");
         Instruction stopInstruction = new Stop("0000", "0000");
         controlUnit.executeSingleInstruction(loadInstruction);
@@ -54,7 +54,7 @@ public class AddressingBitsTest {
         //    0111111111111111
         //    0000000000000001 +
         // =  1000000000000000
-        Instruction loadInstruction = new Load("1100", "0", "000", "0111111111111111");
+        Instruction loadInstruction = new Ldr("1100", "0", "000", "0111111111111111");
         Instruction addInstruction = new Addr("0111", "0", "000", "0000000000000001");
         Instruction stopInstruction = new Stop("0000", "0000");
         controlUnit.executeSingleInstruction(loadInstruction);
