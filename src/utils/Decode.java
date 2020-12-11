@@ -32,11 +32,11 @@ public final class Decode {
                 break;
             case "11000":// instruction: load
                 node[2] = theString.substring(8, 24);// assign operand specifier to node 2
-                instruction = new Load(node[0], node[1], node[2]);
+                instruction = new Ldr(node[0], node[1], node[2]);
                 break;
             case "11100":// instruction: store
                 node[2] = theString.substring(8, 24);// assign operand specifier to node 2
-                instruction = new Store(node[0], node[1], node[2]);
+                instruction = new Str(node[0], node[1], node[2]);
                 break;
             case "10000":// instruction: subtract
                 node[2] = theString.substring(8, 24);// assign operand specifier to node 2
