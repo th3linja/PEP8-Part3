@@ -10,17 +10,15 @@ import model.Instruction;
  */
 public final class Decode {
 
-    private Converter conv = new Converter();
-
     /**
      * Decode the binary string and create the appropriate Instruction object.
      *
      * @throws IllegalArgumentException if value for immediate is out of bound.
      */
-    public Instruction decodeInstruction(final String hex) throws IllegalArgumentException {
+    public static Instruction decodeInstruction(final String hex) throws IllegalArgumentException {
         Instruction instruction;
         String[] node;
-        String theString = conv.hexToBinary(hex).replace(" ", "");
+        String theString = Converter.hexToBinary(hex).replace(" ", "");
         //System.out.println(conv.hexToBinary(hex));
         node = new String[3];
         node[0] = theString.substring(0, 5);// assign opcode to node 0
@@ -60,6 +58,5 @@ public final class Decode {
                 throw new IllegalArgumentException("Instruction " + node[0] + " not supported.");
         }
         return instruction;
-
     }
 }

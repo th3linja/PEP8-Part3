@@ -46,7 +46,6 @@ public class ControlUnit implements Observer {
 
     private Decode decode = new Decode();
     public MemoryDump memoryDump = new MemoryDump();
-    private Instruction currentInstruction;
 
     public ControlUnit(SimulatorWindow window) {
         this.window = window;
@@ -56,32 +55,40 @@ public class ControlUnit implements Observer {
 
     }
 
+    public void executeNextInstruction() {
+        Instruction nextInstruction = getNextInstruction();
+        nextInstruction.execute(this);
+        checkCharOutput(nextInstruction);
+        incrementPC();
+        updateCPU();
+    }
+
     public void executeSingleInstruction(Instruction instr) {
         instr.execute(this);
     }
 
     public void startCycle() {
-        this.IR = Integer.parseInt(memoryDump.fetch(this.PC), 16);
-
         boolean stop = false;
-
-        currentInstruction = decode.decodeInstruction(String.format("%06X", this.IR));
-
-        currentInstruction.execute(this);
-
-        // Get data if needed.
-
-        // Execute the instruction.
-
-        // PC must be updated to hold the address of the next instruction to be executed
+        Instruction nextInstruction = getNextInstruction();
+        nextInstruction.execute(this);
+        checkCharOutput(nextInstruction);
+        incrementPC();
+        updateCPU();
 
         if (!stop) {
             startCycle();
         }
     }
 
+    private void checkCharOutput(Instruction nextInstruction) {
+        if (nextInstruction instanceof CharOut) {
+            CharOut charOutInstruction = (CharOut) nextInstruction;
+            window.setOutArea(charOutInstruction.getOutput());
+        }
+    }
+
     private void updateCPU() {
-        this.PC += 0x0003;
+        Instruction currentInstruction = getNextInstruction();
         window.irText.setText(String.format("0x%06X", this.IR));
         window.arText.setText(String.format("0x%06X", this.AR));
         window.pcText.setText(String.format("0x%04X", this.PC));
@@ -101,6 +108,20 @@ public class ControlUnit implements Observer {
         if (window.res == true) {
             this.PC = 0x0000;
         }
+    }
+
+    private void incrementPC() {
+        this.PC += 0x0001;
+    }
+
+    public Instruction getNextInstruction() {
+        int instructionStoredInPC = getNextInstructionFromMemory();
+        this.IR = instructionStoredInPC;
+        Instruction nextInstruction = Decode.decodeInstruction(String.format("%06X", this.IR));
+        return nextInstruction;
+    }
+    public int getNextInstructionFromMemory() {
+        return Integer.parseInt(memoryDump.fetch(this.PC), 16);
     }
 
     public void setMyIndexRegister(int myIndexRegister) {
