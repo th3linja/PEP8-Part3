@@ -58,6 +58,7 @@ public class ControlUnit implements Observer {
     public void executeNextInstruction() {
         Instruction nextInstruction = getNextInstruction();
         nextInstruction.execute(this);
+        checkCharOutput(nextInstruction);
         incrementPC();
         updateCPU();
     }
@@ -66,11 +67,19 @@ public class ControlUnit implements Observer {
         boolean stop = false;
         Instruction nextInstruction = getNextInstruction();
         nextInstruction.execute(this);
+        checkCharOutput(nextInstruction);
         incrementPC();
         updateCPU();
 
         if (!stop) {
             startCycle();
+        }
+    }
+
+    private void checkCharOutput(Instruction nextInstruction) {
+        if (nextInstruction instanceof CharOut) {
+            CharOut charOutInstruction = (CharOut) nextInstruction;
+            window.setOutArea(charOutInstruction.getOutput());
         }
     }
 
