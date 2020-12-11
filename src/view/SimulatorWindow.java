@@ -87,7 +87,12 @@ public class SimulatorWindow extends Observable {
 
         executeButton.addActionListener((e) -> {
             setChanged();
-            notifyObservers();
+            notifyObservers("Execute");
+        });
+
+        stepButton.addActionListener((e) -> {
+            setChanged();
+            notifyObservers("Single Step");
         });
 
         inArea.addActionListener(e -> {
