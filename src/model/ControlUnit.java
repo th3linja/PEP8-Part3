@@ -63,6 +63,10 @@ public class ControlUnit implements Observer {
         updateCPU();
     }
 
+    public void executeSingleInstruction(Instruction instr) {
+        instr.execute(this);
+    }
+
     public void startCycle() {
         boolean stop = false;
         Instruction nextInstruction = getNextInstruction();
