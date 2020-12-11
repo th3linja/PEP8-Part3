@@ -41,7 +41,6 @@ public class Simulator implements Observer {
         } else if (operation.equals("Execute")) {
             new Thread(() -> {
                 controlUnit.startCycle();
-
             }).start();
         }
 
