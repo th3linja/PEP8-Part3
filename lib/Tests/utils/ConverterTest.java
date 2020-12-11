@@ -46,6 +46,4 @@ class ConverterTest {
         String b = converter.decimalToBinary(d);
         Assertions.assertEquals("1010",b);
     }
-
-
 }
