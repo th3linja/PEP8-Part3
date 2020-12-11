@@ -6,7 +6,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             new Simulator();
-        } catch(Exception ex){}
+        } catch (Exception ex) {
+        }
     }
 }
 /*
