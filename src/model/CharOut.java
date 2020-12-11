@@ -1,6 +1,6 @@
 package model;
 
-public class CharOut extends Instruction{
+public class CharOut extends Instruction {
     public CharOut(String opCode, String operand) {
         super(opCode, operand);
     }

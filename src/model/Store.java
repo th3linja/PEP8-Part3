@@ -1,6 +1,6 @@
 package model;
 
-public class Store extends Instruction{
+public class Store extends Instruction {
 
     public Store(String opCode, String operand) {
         super(opCode, operand);
