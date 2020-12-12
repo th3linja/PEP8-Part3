@@ -16,6 +16,7 @@ public class Simulator implements Observer {
 
     private ControlUnit controlUnit;
     private SimulatorWindow window;
+    private Thread cycleThread;
 
     public Simulator() throws IOException {
         JFrame frame = new JFrame();
@@ -37,11 +38,25 @@ public class Simulator implements Observer {
 
         String operation = (String) arg;
         if (operation.equals("Single Step")) {
-            controlUnit.executeNextInstruction();
+            cycleThread = new Thread(() -> {
+                try {
+                    controlUnit.executeNextInstruction();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            cycleThread.start();
         } else if (operation.equals("Execute")) {
-            new Thread(() -> {
-                controlUnit.startCycle();
-            }).start();
+            cycleThread = new Thread(() -> {
+                try {
+                    controlUnit.startCycle();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            cycleThread.start();
+        } else if (operation.equals("Character In")) {
+            window.notifyObservers();
         }
 
         // Update the GUI components when fetch-execute cycle is finished.

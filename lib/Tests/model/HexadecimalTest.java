@@ -1,5 +1,6 @@
-package model;
+package Tests.model;
 
+import model.Hexadecimal;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

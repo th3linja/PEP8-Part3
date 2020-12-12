@@ -1,18 +1,19 @@
-package model;
+package Tests.model;
 
+import model.Decimal;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BinaryTest {
+class DecimalTest {
 
     /**
      * Test if compare method works.
      */
     @Test
     void testCompare() {
-        Binary b1 = new Binary("10");
-        Binary b2 = new Binary("11");
-        int actual = b1.compare(b2);
+        Decimal d1 = new Decimal("1");
+        Decimal d2 = new Decimal("2");
+        int actual = d1.compare(d2);
         assertEquals(actual, -1);
     }
 
@@ -22,9 +23,9 @@ class BinaryTest {
      */
     @Test
     void testEquals() {
-        Binary b1 = new Binary("10");
-        Binary b2 = new Binary("11");
-        boolean actual = b1.equals(b2);
+        Decimal d1 = new Decimal("1");
+        Decimal d2 = new Decimal("2");
+        boolean actual = d1.equals(d2);
         assertEquals(actual, false);
     }
 
@@ -34,9 +35,9 @@ class BinaryTest {
      */
     @Test
     void testEquals2() {
-        Binary b1 = new Binary("10");
-        String b2 = "11";
-        boolean actual = b1.equals(b2);
+        Decimal d1 = new Decimal("1");
+        String d2 = "2";
+        boolean actual = d1.equals(d2);
         assertEquals(actual, false);
     }
 
@@ -46,9 +47,9 @@ class BinaryTest {
      */
     @Test
     void testEquals3() {
-        Binary b1 = new Binary("10");
-        Binary b2 = b1;
-        boolean actual = b1.equals(b2);
+        Decimal d1 = new Decimal("1");
+        Decimal d2 = d1;
+        boolean actual = d1.equals(d2);
         assertEquals(actual, true);
     }
 
@@ -57,9 +58,10 @@ class BinaryTest {
      */
     @Test
     void testSetNumber() {
-        Binary b = new Binary("10");
-        b.setNumber("11");
-        String actual = b.getNumber();
-        assertEquals(actual, "11");
+        Decimal d = new Decimal("1");
+        d.setNumber("2");
+        String actual = d.getNumber();
+        assertEquals(actual, "2");
     }
+
 }

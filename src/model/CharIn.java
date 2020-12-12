@@ -1,5 +1,10 @@
 package model;
 
+import utils.Converter;
+
+import java.util.Observable;
+import java.util.Observer;
+
 public class CharIn extends Instruction {
 
     public CharIn(String opCode, String operand) {
@@ -15,7 +20,7 @@ public class CharIn extends Instruction {
     }
 
     @Override
-    public void execute(ControlUnit controlUnit) {
-
+    public void execute(ControlUnit controlUnit) throws InterruptedException {
+        controlUnit.executeCharIn(this);
     }
 }

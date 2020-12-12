@@ -10,7 +10,7 @@ public class AddressingBitsTest {
     ControlUnit controlUnit = new ControlUnit(null);
 
     @Test
-    void testZBit(){
+    void testZBit() throws InterruptedException {
         // Command will Load the A register with the value of 1. Then add a -1 to it. Should trigger the Z addressing bit.
         Instruction loadInstruction = new Ldr("1100","0","000", "0000000000000001");
         Instruction addInstruction = new Addr("0111", "0", "000", "1111111111111111");
@@ -22,7 +22,7 @@ public class AddressingBitsTest {
     }
 
     @Test
-    void testNBit() {
+    void testNBit() throws InterruptedException {
         // Command will Load the the A register with the value of 1. Then subtract 2 to it. Should trigger the N bit.
         Instruction loadInstruction = new Ldr("1100","0","000", "0000000000000001");
         Instruction subtractInstruction = new Subtract("1000", "0", "000", "0000000000000010");
@@ -34,7 +34,7 @@ public class AddressingBitsTest {
     }
 
     @Test
-    void testCBit() {
+    void testCBit() throws InterruptedException {
         // Command will Load the A register with the value of 32767(Largest 16 bit number). Then Add 1 to the A Register
         //    0111111111111111
         //    0000000000000001 +
@@ -49,7 +49,7 @@ public class AddressingBitsTest {
     }
 
     @Test
-    void testVBit() {
+    void testVBit() throws InterruptedException {
         // Command will Load the A register with the value of 32767(Largest 16 bit number). Then Add 1 to the A Register
         //    0111111111111111
         //    0000000000000001 +
