@@ -14,6 +14,9 @@ public class Main {
 This command will print Hello in Hex Code
 500048 500065 50006C 50006C 50006F 00
 
+The program characters from the input device and outputs them in reverse order on the output device.
+49000D 49000E 51000D 51000E 00
+
 Command will print Hello in Machine Code
 010100000000000001001000 010100000000000001100101 010100000000000001101100 010100000000000001101100 010100000000000001101111 00000000
 
