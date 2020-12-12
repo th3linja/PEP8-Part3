@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -99,7 +98,7 @@ public class SimulatorWindow extends Observable {
             if (inArea.getText().length() == 1) {
                 charEntered = inArea.getText();
                 setChanged();
-                notifyObservers();
+                notifyObservers("Character In");
                 inArea.setEditable(false);
                 setInArea(null);
             } else {
