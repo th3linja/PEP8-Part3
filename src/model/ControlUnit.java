@@ -83,7 +83,7 @@ public class ControlUnit implements Observer {
     private void checkCharOutput(Instruction nextInstruction) {
         if (nextInstruction instanceof CharOut) {
             CharOut charOutInstruction = (CharOut) nextInstruction;
-            window.setOutArea(charOutInstruction.getOutput());
+            window.setOutArea(window.getOutArea() + charOutInstruction.getOutput());
         }
     }
 
