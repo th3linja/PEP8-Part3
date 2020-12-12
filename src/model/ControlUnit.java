@@ -55,7 +55,7 @@ public class ControlUnit implements Observer {
 
     }
 
-    public void executeNextInstruction() {
+    public void executeNextInstruction() throws InterruptedException {
         Instruction nextInstruction = getNextInstruction();
         nextInstruction.execute(this);
         checkCharOutput(nextInstruction);
@@ -63,11 +63,11 @@ public class ControlUnit implements Observer {
         updateCPU();
     }
 
-    public void executeSingleInstruction(Instruction instr) {
+    public void executeSingleInstruction(Instruction instr) throws InterruptedException {
         instr.execute(this);
     }
 
-    public void startCycle() {
+    public void startCycle() throws InterruptedException {
         boolean stop = false;
         Instruction nextInstruction = getNextInstruction();
         nextInstruction.execute(this);
@@ -87,6 +87,25 @@ public class ControlUnit implements Observer {
         }
     }
 
+    public void executeCharIn(Instruction instruction) throws InterruptedException {
+        // Wait for a character to be pressed in the terminal window
+        synchronized(this){
+            while(window.charEntered.length() != 1) {
+                try {
+                    window.inArea.setEditable(true);
+                    this.wait();
+                } catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+        int i = Integer.valueOf(window.charEntered.charAt(0));
+        //String hex = Converter.binToHex(String.format("%8s", Converter.decimalToBinary(i)).replace(' ', '0')).strip();
+        memoryDump.setMemory(Converter.binToHex(instruction.getOperand()), i);
+        window.appendOutArea("Entered : '" + window.charEntered + "' at " + Converter.binToHex(instruction.getOperand()) + " in memory.\n");
+        window.charEntered = "";
+    }
+
     private void updateCPU() {
         Instruction currentInstruction = getNextInstruction();
         window.irText.setText(String.format("0x%06X", this.IR));
@@ -94,14 +113,12 @@ public class ControlUnit implements Observer {
         window.pcText.setText(String.format("0x%04X", this.PC));
         window.isText.setText(String.format("0x%02X", Converter.binToDecimal(currentInstruction.getOpcode())));
         window.osText.setText(String.format("0x%04X", Converter.binToDecimal(currentInstruction.getOperand())));
-        System.out.println(currentInstruction.getOpcode() + currentInstruction.getRegisterSpecifier() + " " + currentInstruction.getOperand());
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
         if (window.charEntered.length() == 1) {
-            synchronized (ControlUnit.this) {
+            synchronized(ControlUnit.this) {
                 ControlUnit.this.notify();
             }
         }
