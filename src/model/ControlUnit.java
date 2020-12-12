@@ -171,6 +171,14 @@ public class ControlUnit implements Observer {
     public void setAR(int AR) {
         this.AR = AR;
     }
+
+    public SimulatorWindow getWindow() {
+        return window;
+    }
+
+    public MemoryDump getMemoryDump() {
+        return memoryDump;
+    }
 }
 
 class myRunnable implements Runnable {
