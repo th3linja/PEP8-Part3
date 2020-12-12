@@ -29,7 +29,7 @@ public abstract class Instruction {
         this.myAddressingMode = addressingMode;
     }
 
-    public abstract void execute(ControlUnit controlUnit);
+    public abstract void execute(ControlUnit controlUnit) throws InterruptedException;
 
     @Override
     public String toString() {
