@@ -180,15 +180,3 @@ public class ControlUnit implements Observer {
         return memoryDump;
     }
 }
-
-class myRunnable implements Runnable {
-    @Override
-    public void run() {
-        synchronized (this) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-            }
-        }
-    }
-}
