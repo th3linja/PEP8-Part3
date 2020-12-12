@@ -168,6 +168,10 @@ public class ControlUnit implements Observer {
         return AR;
     }
 
+    public void setPC(int newPC) {
+        this.PC = newPC;
+    }
+
     public void setAR(int AR) {
         this.AR = AR;
     }
