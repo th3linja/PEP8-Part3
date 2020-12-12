@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class StrTest {
 
     @Test
-    void testStr() {
+    void testStr() throws InterruptedException {
         ControlUnit controlUnit = new ControlUnit();
         controlUnit.setAR(10);
         Instruction str = new Str("1110", "0", "001", "0000000000000001");
