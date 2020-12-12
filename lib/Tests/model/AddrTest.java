@@ -1,5 +1,8 @@
-package model;
+package Tests.model;
 
+import model.Addr;
+import model.ControlUnit;
+import model.Instruction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,5 +1,6 @@
-package model;
+package Tests.model;
 
+import model.Binary;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
