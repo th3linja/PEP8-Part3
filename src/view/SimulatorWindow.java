@@ -312,6 +312,10 @@ public class SimulatorWindow extends Observable {
         outArea.setText(output);
     }
 
+    public String getOutArea() {
+        return outArea.getText();
+    }
+
     public void setInArea(String output) {
         inArea.setText(output);
     }
