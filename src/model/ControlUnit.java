@@ -111,7 +111,7 @@ public class ControlUnit implements Observer {
     }
 
     private void incrementPC() {
-        this.PC += 0x0001;
+        this.PC += 0x0003;
     }
 
     public Instruction getNextInstruction() {
