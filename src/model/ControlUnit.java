@@ -191,6 +191,10 @@ public class ControlUnit implements Observer {
 		this.PC = newPC;
 	}
 
+	public int getPC() {
+		return this.PC;
+	}
+
 	public void setAR(int AR) {
 		this.AR = AR;
 	}

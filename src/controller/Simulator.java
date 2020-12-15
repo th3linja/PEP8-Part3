@@ -82,7 +82,7 @@ public class Simulator implements Observer {
 		 * if (srcCode.equals("") || srcCode == null) { srcCode =
 		 * Converter.hexToBinary(objectCode); window.setSrcCodeArea(srcCode); } else {
 		 */
-		
+
 		String[] srcCode = window.getSrcCodeArea().getText().split("\\r?\\n");
 		System.out.println(window.getSrcCodeArea().getText().contentEquals(""));
 		if (!window.getSrcCodeArea().getText().equals("")) {
@@ -91,7 +91,7 @@ public class Simulator implements Observer {
 			try {
 				System.out.println(Arrays.deepToString(srcCode));
 				String objectCode = dec.assemblyToHex(srcCode);
-				System.out.println(objectCode); 
+				System.out.println(objectCode);
 				code = dec.format(objectCode);
 				window.setObjectCodeArea(code);
 				controlUnit.memoryDump.updateMemory(code);
