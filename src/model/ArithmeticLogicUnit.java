@@ -8,35 +8,35 @@ import utils.Transformer;
  */
 public class ArithmeticLogicUnit {
 
-    public int performAddition(int num1, int num2) {
-        int sum = Transformer.transformBinaryToDecimal(num1) + Transformer.transformBinaryToDecimal(num2);
-        return Transformer.transformDecimalToBinary(sum);
-    }
+	public int performAddition(int num1, int num2) {
+		int sum = Transformer.transformBinaryToDecimal(num1) + Transformer.transformBinaryToDecimal(num2);
+		return Transformer.transformDecimalToBinary(sum);
+	}
 
-    public int performSubtraction(int num1, int num2) {
-        int sum = Transformer.transformBinaryToDecimal(num1) - Transformer.transformBinaryToDecimal(num2);
-        return Transformer.transformDecimalToBinary(sum);
-    }
+	public int performSubtraction(int num1, int num2) {
+		int sum = Transformer.transformBinaryToDecimal(num1) - Transformer.transformBinaryToDecimal(num2);
+		return Transformer.transformDecimalToBinary(sum);
+	}
 
-    public int performMultiplication(int num1, int num2) {
-        int sum = Transformer.transformBinaryToDecimal(num1) * Transformer.transformBinaryToDecimal(num2);
-        return Transformer.transformDecimalToBinary(sum);
-    }
+	public int performMultiplication(int num1, int num2) {
+		int sum = Transformer.transformBinaryToDecimal(num1) * Transformer.transformBinaryToDecimal(num2);
+		return Transformer.transformDecimalToBinary(sum);
+	}
 
-    public int performDivision(int num1, int num2) {
-        int sum = Transformer.transformBinaryToDecimal(num1) / Transformer.transformBinaryToDecimal(num2);
-        return Transformer.transformDecimalToBinary(sum);
-    }
+	public int performDivision(int num1, int num2) {
+		int sum = Transformer.transformBinaryToDecimal(num1) / Transformer.transformBinaryToDecimal(num2);
+		return Transformer.transformDecimalToBinary(sum);
+	}
 
-    public int performAND(int num1, int num2) {
-        return num1 & num2;
-    }
+	public int performAND(int num1, int num2) {
+		return num1 & num2;
+	}
 
-    public int performNOT(int num1) {
-        return ~num1;
-    }
+	public int performNOT(int num1) {
+		return ~num1;
+	}
 
-    public int performOR(int num1, int num2) {
-        return num1 | num2;
-    }
+	public int performOR(int num1, int num2) {
+		return num1 | num2;
+	}
 }

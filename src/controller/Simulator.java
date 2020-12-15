@@ -1,12 +1,14 @@
 package controller;
 
 import model.ControlUnit;
+import model.SourceDecode;
 import utils.Converter;
 import view.SimulatorWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -14,73 +16,91 @@ import java.util.Observer;
 
 public class Simulator implements Observer {
 
-    private ControlUnit controlUnit;
-    private SimulatorWindow window;
-    private Thread cycleThread;
+	private ControlUnit controlUnit;
+	private SimulatorWindow window;
+	private Thread cycleThread;
+	private SourceDecode dec;
 
-    public Simulator() throws IOException {
-        JFrame frame = new JFrame();
-        frame.setBackground(Color.BLACK);
-        window = new SimulatorWindow(new ControlUnit(window).memoryDump);
-        controlUnit = new ControlUnit(window);
-        window.addObserver(this);
-        window.addObserver(controlUnit);
-        frame.add(window.getMainPanel());
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.pack();
-    }
+	public Simulator() throws IOException {
+		JFrame frame = new JFrame();
+		frame.setBackground(Color.BLACK);
+		window = new SimulatorWindow(new ControlUnit(window).memoryDump);
+		controlUnit = new ControlUnit(window);
+		window.addObserver(this);
+		window.addObserver(controlUnit);
+		frame.add(window.getMainPanel());
+		frame.setResizable(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.pack();
+	}
 
-    @Override
-    public void update(Observable o, Object arg) {
-        updateMemoryFromWindow();
+	@Override
+	public void update(Observable o, Object arg) {
+		updateMemoryFromWindow();
 
-        String operation = (String) arg;
-        if (operation.equals("Single Step")) {
-            cycleThread = new Thread(() -> {
-                try {
-                    controlUnit.executeNextInstruction();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            cycleThread.start();
-        } else if (operation.equals("Execute")) {
-            cycleThread = new Thread(() -> {
-                try {
-                    controlUnit.startCycle();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            cycleThread.start();
-        } else if (operation.equals("Character In")) {
-            window.notifyObservers();
-        }
+		String operation = (String) arg;
+		if (operation.equals("Single Step")) {
+			cycleThread = new Thread(() -> {
+				try {
+					controlUnit.executeNextInstruction();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			});
+			cycleThread.start();
+		} else if (operation.equals("Execute")) {
+			cycleThread = new Thread(() -> {
+				try {
+					controlUnit.startCycle();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			});
+			cycleThread.start();
+		} else if (operation.equals("Character In")) {
+			window.notifyObservers();
+		}
 
-        // Update the GUI components when fetch-execute cycle is finished.
-        window.setMemoryDump(controlUnit.memoryDump);
-        Map<String, String> addressingBits = new HashMap<>();
-        addressingBits.put("N", controlUnit.getMyNFlag() + "");
-        addressingBits.put("Z", controlUnit.getMyZFlag() + "");
-        addressingBits.put("V", controlUnit.getMyVFlag() + "");
-        addressingBits.put("C", controlUnit.getMyCFlag() + "");
-        window.setAddressingBits(addressingBits);
-    }
+		// Update the GUI components when fetch-execute cycle is finished.
+		window.setMemoryDump(controlUnit.memoryDump);
+		Map<String, String> addressingBits = new HashMap<>();
+		addressingBits.put("N", controlUnit.getMyNFlag() + "");
+		addressingBits.put("Z", controlUnit.getMyZFlag() + "");
+		addressingBits.put("V", controlUnit.getMyVFlag() + "");
+		addressingBits.put("C", controlUnit.getMyCFlag() + "");
+		window.setAddressingBits(addressingBits);
+	}
 
-    private void updateMemoryFromWindow() {
-        String objectCode = window.getObjectCodeArea().getText().replace("\n", "").replace(" ", "");
-        String binaryCode = window.getBinCodeArea().getText().replace("\n", "").replace(" ", "");
-        if (binaryCode.equals("") || binaryCode == null) {
-            binaryCode = Converter.hexToBinary(objectCode);
-            window.setBinCodeArea(binaryCode);
-        } else {
-            objectCode = Converter.binToHex(binaryCode);
-            window.setObjectCodeArea(objectCode);
-        }
-        controlUnit.memoryDump.updateMemory(objectCode);
-        window.getMemoryArea().setText(controlUnit.memoryDump.toString());
-        window.getMemoryArea().setCaretPosition(0);
-    }
+	private void updateMemoryFromWindow() {
+		// String objectCode = window.getObjectCodeArea().getText().replace("\n",
+		// "").replace(" ", "");
+		// String srcCode = window.getSrcCodeArea().getText().replace("\n",
+		// "").replace(" ", "");
+
+		/**
+		 * if (srcCode.equals("") || srcCode == null) { srcCode =
+		 * Converter.hexToBinary(objectCode); window.setSrcCodeArea(srcCode); } else {
+		 */
+
+		String[] srcCode = window.getSrcCodeArea().getText().split("\\r?\\n");
+		System.out.println(window.getSrcCodeArea().getText().contentEquals(""));
+		if (!window.getSrcCodeArea().getText().equals("")) {
+			System.out.println(Arrays.deepToString(srcCode));
+			String code = "";
+			try {
+				System.out.println(Arrays.deepToString(srcCode));
+				String objectCode = dec.assemblyToHex(srcCode);
+				System.out.println(objectCode);
+				code = dec.format(objectCode);
+				window.setObjectCodeArea(code);
+				controlUnit.memoryDump.updateMemory(code);
+				window.getMemoryArea().setText(controlUnit.memoryDump.toString());
+				window.getMemoryArea().setCaretPosition(0);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
