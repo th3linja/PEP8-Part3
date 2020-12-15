@@ -30,6 +30,12 @@ public class Branch extends Instruction {
             case "0001000":
                 executeBRGT(controlUnit);
                 break;
+            case "0001001": //branch if negative
+                executeBRV(controlUnit);
+                break;
+            case "0001010": //branch if carry
+                executeBRC(controlUnit);
+                break;
         }
     }
 
@@ -111,6 +117,30 @@ public class Branch extends Instruction {
     private void executeBRGT(ControlUnit controlUnit) {
         int addrInt = Integer.parseInt(getOperand(), 2);
         if (controlUnit.getAR() > addrInt) {
+            controlUnit.setPC(addrInt);
+        }
+    }
+
+    /**
+     * Branch if carry.
+     *
+     * @param controlUnit
+     */
+    private void executeBRC(ControlUnit controlUnit){
+        int addrInt = Integer.parseInt(getOperand(), 2);
+        if (controlUnit.getMyCFlag() == 1) {
+            controlUnit.setPC(addrInt);
+        }
+    }
+
+    /**
+     * Branch if overflow.
+     *
+     * @param controlUnit
+     */
+    private void executeBRV(ControlUnit controlUnit) {
+        int addrInt = Integer.parseInt(getOperand(), 2);
+        if (controlUnit.getMyVFlag() == 1) {
             controlUnit.setPC(addrInt);
         }
     }
