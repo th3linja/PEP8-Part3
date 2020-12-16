@@ -145,15 +145,4 @@ public class Branch extends Instruction {
         }
     }
 
-	/**
-	 * Branch if greater-than.
-	 *
-	 * @param controlUnit
-	 */
-	private void executeBRGT(ControlUnit controlUnit) {
-		int addrInt = Integer.parseInt(getOperand(), 2);
-		if (controlUnit.getAR() > addrInt) {
-			controlUnit.setPC(addrInt);
-		}
-	}
 }
