@@ -37,13 +37,13 @@ public class ControlUnit implements Observer {
 	private int myCFlag;
 
 	private int myIndexRegister;
+	private boolean stop = false;
 
 	private int PC = 0x0000;
 	private int AR = 0x0000;
 	private int IR = 0x000000;
 	SimulatorWindow window;
 
-	private Decode decode = new Decode();
 	public MemoryDump memoryDump = new MemoryDump();
 
 	public ControlUnit(SimulatorWindow window) {
@@ -67,8 +67,8 @@ public class ControlUnit implements Observer {
 	}
 
 	public void startCycle() throws InterruptedException {
-		boolean stop = false;
 		Instruction nextInstruction = getNextInstruction();
+		System.out.println(nextInstruction.getClass());
 		nextInstruction.execute(this);
 		checkCharOutput(nextInstruction);
 		incrementPC();
@@ -197,6 +197,10 @@ public class ControlUnit implements Observer {
 
 	public void setAR(int AR) {
 		this.AR = AR;
+	}
+
+	public void setTrue() {
+		this.stop = true;
 	}
 
 	public SimulatorWindow getWindow() {
