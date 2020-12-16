@@ -17,6 +17,8 @@ public class BranchTest {
     String BRNEOpcode = "0000110";
     String BRGEOpcode = "0000111";
     String BRGTOpcode = "0001000";
+    String BRVOpcode = "0001001";
+    String BRCOpcode = "0001010";
 
     ControlUnit controlUnit = new ControlUnit(null);
 
@@ -86,5 +88,21 @@ public class BranchTest {
         controlUnit.executeSingleInstruction(loadInstruction);
         controlUnit.executeSingleInstruction(BRGT);
         assertEquals(4, controlUnit.getPC());
+    }
+
+    @Test
+    void testBRV() throws InterruptedException {
+        controlUnit.setMyVFlag(1);
+        Branch BRV = new Branch(BRVOpcode, "", "0", "0000000000000111");
+        controlUnit.executeSingleInstruction(BRV);
+        assertEquals(7, controlUnit.getPC());
+    }
+
+    @Test
+    void testBRC() throws InterruptedException {
+        controlUnit.setMyCFlag(1);
+        Branch BRC = new Branch(BRCOpcode, "", "0", "0000000000000111");
+        controlUnit.executeSingleInstruction(BRC);
+        assertEquals(7, controlUnit.getPC());
     }
 }

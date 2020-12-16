@@ -6,32 +6,38 @@ public class Branch extends Instruction {
 		super(opCode, registerSpec, addressingMode, operand);
 	}
 
-	@Override
-	public void execute(ControlUnit controlUnit) throws InterruptedException {
-		switch (getOpcode()) {
-		case "0000010":
-			executeBR(controlUnit);
-			break;
-		case "0000011":
-			executeBRLE(controlUnit);
-			break;
-		case "0000100":
-			executeBRLT(controlUnit);
-			break;
-		case "0000101":
-			executeBREQ(controlUnit);
-			break;
-		case "0000110":
-			executeBRNE(controlUnit);
-			break;
-		case "0000111":
-			executeBRGE(controlUnit);
-			break;
-		case "0001000":
-			executeBRGT(controlUnit);
-			break;
-		}
-	}
+    @Override
+    public void execute(ControlUnit controlUnit) throws InterruptedException {
+        switch (getOpcode()) {
+            case "0000010":
+                executeBR(controlUnit);
+                break;
+            case "0000011":
+                executeBRLE(controlUnit);
+                break;
+            case "0000100":
+                executeBRLT(controlUnit);
+                break;
+            case "0000101":
+                executeBREQ(controlUnit);
+                break;
+            case "0000110":
+                executeBRNE(controlUnit);
+                break;
+            case "0000111":
+                executeBRGE(controlUnit);
+                break;
+            case "0001000":
+                executeBRGT(controlUnit);
+                break;
+            case "0001001": //branch if negative
+                executeBRV(controlUnit);
+                break;
+            case "0001010": //branch if carry
+                executeBRC(controlUnit);
+                break;
+        }
+    }
 
 	/**
 	 * Branch unconditionally.
@@ -102,6 +108,42 @@ public class Branch extends Instruction {
 			controlUnit.setPC(addrInt);
 		}
 	}
+
+    /**
+     * Branch if greater-than.
+     *
+     * @param controlUnit
+     */
+    private void executeBRGT(ControlUnit controlUnit) {
+        int addrInt = Integer.parseInt(getOperand(), 2);
+        if (controlUnit.getAR() > addrInt) {
+            controlUnit.setPC(addrInt);
+        }
+    }
+
+    /**
+     * Branch if carry.
+     *
+     * @param controlUnit
+     */
+    private void executeBRC(ControlUnit controlUnit){
+        int addrInt = Integer.parseInt(getOperand(), 2);
+        if (controlUnit.getMyCFlag() == 1) {
+            controlUnit.setPC(addrInt);
+        }
+    }
+
+    /**
+     * Branch if overflow.
+     *
+     * @param controlUnit
+     */
+    private void executeBRV(ControlUnit controlUnit) {
+        int addrInt = Integer.parseInt(getOperand(), 2);
+        if (controlUnit.getMyVFlag() == 1) {
+            controlUnit.setPC(addrInt);
+        }
+    }
 
 	/**
 	 * Branch if greater-than.
