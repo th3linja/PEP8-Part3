@@ -2,16 +2,16 @@ package model;
 
 import utils.Converter;
 
-public class ORr extends Instruction {
-    public ORr(String opCode, String operand) {
+public class ANDr extends Instruction {
+    public ANDr(String opCode, String operand) {
         super(opCode, operand);
     }
 
-    public ORr(String opCode, String registerSpec, String operand) {
+    public ANDr(String opCode, String registerSpec, String operand) {
         super(opCode, registerSpec, operand);
     }
 
-    public ORr(String opCode, String registerSpec, String addressingMode, String operand) {
+    public ANDr(String opCode, String registerSpec, String addressingMode, String operand) {
         super(opCode, registerSpec, addressingMode, operand);
     }
 
@@ -19,14 +19,14 @@ public class ORr extends Instruction {
     public void execute(ControlUnit controlUnit) throws InterruptedException {
         String finalORValue;
         String ARStringValue = Converter.decimalToBinary(controlUnit.getAR());
-        if (super.getAddressingMode().equals("001")) { // OR with immediate
+        if (super.getAddressingMode().equals("001")) { // AND with immediate
             int operandInt = Converter.binToDecimal(super.getOperand());
             String memoryValue = controlUnit.getMemoryDump().getMemory(operandInt);
-            finalORValue = bitwiseOR(memoryValue, ARStringValue);
+            finalORValue = bitwiseAND(memoryValue, ARStringValue);
 
 
-        } else { // OR with memory
-            finalORValue = bitwiseOR(super.getOperand(), ARStringValue);
+        } else { // AND with memory
+            finalORValue = bitwiseAND(super.getOperand(), ARStringValue);
         }
 
         controlUnit.setAR(Converter.binToDecimal(finalORValue));
@@ -34,16 +34,16 @@ public class ORr extends Instruction {
         controlUnit.setMyZFlag(getZFlagFromBinary(finalORValue));
     }
 
-    private String bitwiseOR(final String theInput1, final String theInput2) {
+    private String bitwiseAND(final String theInput1, final String theInput2) {
         String output = "";
         if (theInput1.length() != theInput2.length()) {
-            throw new IllegalArgumentException("Tried to OR binaries of mismatched length.");
+            throw new IllegalArgumentException();
         }
         for (int index = 0; index < theInput1.length(); index++) {
-            if (theInput1.charAt(index) == '0' && theInput2.charAt(index) == '0') {
-                output = output.concat("0");
-            } else { // if the matching index locations are not both 0, the ORer sets the bit to 1.
+            if (theInput1.charAt(index) == '1' && theInput2.charAt(index) == '1') {
                 output = output.concat("1");
+            } else { // if the matching index locations are not both 1, the ANDer sets the bit to 0.
+                output = output.concat("0");
             }
         }
         return output;

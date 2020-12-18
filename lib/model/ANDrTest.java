@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ORrTest {
+class ANDrTest {
     @Test
-    void testOr() throws InterruptedException {
+    void testAND() throws InterruptedException {
         ControlUnit controlUnit = new ControlUnit();
-        controlUnit.setAR(0);
-        Instruction Or = new ORr("1010", "0", "000", "0000000000000001");
-        Or.execute(controlUnit);
+        controlUnit.setAR(3);
+        Instruction and = new ANDr("0111", "0", "000", "0000000000000001");
+        and.execute(controlUnit);
         assertEquals(1, controlUnit.getAR());
     }
 }
