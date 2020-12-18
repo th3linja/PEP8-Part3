@@ -2,6 +2,11 @@ package model;
 
 public class Binary extends Number {
 
+	/** Empty Constructor that initializes number to 24 bit Binary*/
+	public Binary() {
+		super("000000000000000000000000");
+	}
+
 	/** @param number - String value that initializes the number field. */
 	public Binary(String number) {
 		super(number);
