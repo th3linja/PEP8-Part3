@@ -25,10 +25,10 @@ class ConverterTest {
 
     @Test
     void testBinToDecimal() {
-        String b = "1010";
+        String b = "11111111111111111111111111110011";
         Converter converter = new Converter();
         int d = converter.binToDecimal(b);
-        Assertions.assertEquals(10,d);
+        Assertions.assertEquals(-13,d);
     }
 
     @Test
@@ -44,6 +44,6 @@ class ConverterTest {
         int d = 10;
         Converter converter = new Converter();
         String b = converter.decimalToBinary(d);
-        Assertions.assertEquals("1010",b);
+        Assertions.assertEquals("0000000000001010",b);
     }
 }

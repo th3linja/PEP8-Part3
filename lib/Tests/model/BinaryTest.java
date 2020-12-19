@@ -7,6 +7,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class BinaryTest {
 
     /**
+     * Test if empty constructor is functioning correctly
+     */
+    @Test
+    void testEmptyConstructor() {
+        Binary b = new Binary();
+        String expected = b.getNumber();
+        String actual = "000000000000000000000000";
+        assertEquals(expected, actual);
+    }
+
+    /**
      * Test if compare method works.
      */
     @Test

@@ -51,7 +51,7 @@ public class Converter {
 	 * @return Decimal
 	 */
 	public static int binToDecimal(String bin) {
-		return (short) Integer.parseInt(bin, 2);
+		return (int)Long.parseLong(bin, 2);
 	}
 
 	/**

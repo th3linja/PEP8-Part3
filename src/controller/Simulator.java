@@ -19,9 +19,10 @@ public class Simulator implements Observer {
 	private ControlUnit controlUnit;
 	private SimulatorWindow window;
 	private Thread cycleThread;
-	private SourceDecode dec;
+	private final SourceDecode dec;
 
 	public Simulator() throws IOException {
+		dec = new SourceDecode();
 		JFrame frame = new JFrame();
 		frame.setBackground(Color.BLACK);
 		window = new SimulatorWindow(new ControlUnit(window).memoryDump);
@@ -82,14 +83,10 @@ public class Simulator implements Observer {
 		 * if (srcCode.equals("") || srcCode == null) { srcCode =
 		 * Converter.hexToBinary(objectCode); window.setSrcCodeArea(srcCode); } else {
 		 */
-
-		String[] srcCode = window.getSrcCodeArea().getText().split("\\r?\\n");
-		System.out.println(window.getSrcCodeArea().getText().contentEquals(""));
-		if (!window.getSrcCodeArea().getText().equals("")) {
-			System.out.println(Arrays.deepToString(srcCode));
+		if (!window.getSrcCodeArea().getText().equals("") || window.getSrcCodeArea().getText() != null) {
+			String[] srcCode = window.getSrcCodeArea().getText().split("\\r?\\n");
 			String code = "";
 			try {
-				System.out.println(Arrays.deepToString(srcCode));
 				String objectCode = dec.assemblyToHex(srcCode);
 				System.out.println(objectCode);
 				code = dec.format(objectCode);

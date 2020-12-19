@@ -16,6 +16,6 @@ public class Stop extends Instruction {
 
 	@Override
 	public void execute(ControlUnit controlUnit) {
-
+		controlUnit.setTrue();
 	}
 }
