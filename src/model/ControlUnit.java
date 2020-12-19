@@ -68,7 +68,6 @@ public class ControlUnit implements Observer {
 
 	public void startCycle() throws InterruptedException {
 		Instruction nextInstruction = getNextInstruction();
-		System.out.println(nextInstruction.getClass());
 		nextInstruction.execute(this);
 		checkCharOutput(nextInstruction);
 		incrementPC();
