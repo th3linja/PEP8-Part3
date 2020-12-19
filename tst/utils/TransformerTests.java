@@ -1,7 +1,6 @@
-package Tests.utils;
+package utils;
 
 import org.junit.jupiter.api.Test;
-import utils.Transformer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
