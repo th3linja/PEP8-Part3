@@ -1,4 +1,4 @@
-package Tests.model;
+package model;
 
 import model.Hexadecimal;
 import org.junit.jupiter.api.Test;

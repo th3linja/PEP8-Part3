@@ -1,4 +1,4 @@
-package Tests.model;
+package model;
 
 import model.Binary;
 import org.junit.jupiter.api.Test;

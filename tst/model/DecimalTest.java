@@ -1,4 +1,4 @@
-package Tests.model;
+package model;
 
 import model.Decimal;
 import org.junit.jupiter.api.Test;

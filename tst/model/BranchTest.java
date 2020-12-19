@@ -1,4 +1,4 @@
-package Tests.model;
+package model;
 
 import model.Branch;
 import model.ControlUnit;
