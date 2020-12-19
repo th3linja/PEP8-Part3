@@ -1,5 +1,8 @@
-package model;
+package Tests.model;
 
+import model.ControlUnit;
+import model.Instruction;
+import model.ORr;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
